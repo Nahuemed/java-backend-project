@@ -1,54 +1,65 @@
 package techlab.modelos;
 
-import techlab.Descuentos;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pedido{
-    private ArrayList<Producto> pedido = new ArrayList<>();
-    private ArrayList<Integer> cantidades = new ArrayList<>();
+
+    private Map<String, Integer> pedido = new HashMap<>();
     private int idCompra;
     private double totalCompra;
 
 
 //Getters and setters
-    public ArrayList<Producto> getPedido() {
-        return pedido;
-    }
+public Map<String, Integer> getPedido() {
+    return pedido;
+}
 
-    public ArrayList<Integer> getCantidades() {
-        return cantidades;
+    public void setPedido(Map<String, Integer> pedido) {
+        this.pedido = pedido;
     }
 
     public int getIdCompra() {
         return idCompra;
     }
-
     public void setIdCompra(int idCompra) {
         this.idCompra = idCompra;
     }
 
-//Metodos
-    public double sumarTotal(){
-        double total = 0;
-        for(Producto p : pedido){
-            total += p.getPrecio() * cantidades.get(pedido.indexOf(p));
-        }
-        return total;
+    public double getTotalCompra() {
+        return totalCompra;
+    }
+    public void setTotalCompra(double totalCompra) {
+        this.totalCompra = totalCompra;
     }
 
-    public void agregarProducto(Producto producto, int cantidad){
-        this.pedido.add(producto);
-        this.cantidades.add(cantidad);
+
+//Metodos
+    public double sumarTotal(ArrayList<Producto> inventario){
+        pedido.forEach((String p, Integer i) -> {
+           double total = inventario.get(inventario.indexOf(inventario.equals(p))).getPrecio() * i;
+           totalCompra += total;
+        });
+
+        return totalCompra;
+
+    }
+
+    public void agregarProducto(String producto, int cantidad){
+        pedido.put(producto, cantidad);
     }
 
     public void mostrarPedido(){
-        System.out.println("---------------------------");
-        for(Producto p : pedido){
-            System.out.println(p.getNombre() + " : " + cantidades.get(pedido.indexOf(p)));
-        }
-        System.out.println("Total: " + sumarTotal());
-        System.out.println("---------------------------");
+        System.out.println("---------------------------\n" +
+                "Pedido Nro: " + idCompra + "\n");
+        pedido.forEach((String p, Integer i) -> {
+            System.out.println(p + " : " + i);
+        });
+        System.out.println();
+
+        System.out.println("Total: " + totalCompra + "\n " +
+                "---------------------------");
 
     }
 }
