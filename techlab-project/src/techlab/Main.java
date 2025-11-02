@@ -1,14 +1,11 @@
 package techlab;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import techlab.modelos.Cliente;
 import techlab.modelos.Pedido;
 import techlab.modelos.Producto;
 import techlab.funcionalidades.FuncionesMenu;
+import techlab.funcionalidades.ConversorJson;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class Main {
@@ -16,35 +13,18 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         boolean menuActivo = true;
-        Gson gson = new Gson();
         FuncionesMenu menu = new FuncionesMenu();
-
-            File file = new File("inventario.json");
-            ArrayList<Producto> inventario = new ArrayList<>();
-            if (file.exists()) {
-                try (Reader reader = new FileReader("inventario.json")) {
-                    Type listType = new TypeToken<ArrayList<Producto>>() {
-                    }.getType();
-                    inventario = gson.fromJson(reader, listType);
-                    if (inventario == null) inventario = new ArrayList<>();
-                    System.out.println("📥 Productos cargados desde " + file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                inventario = new ArrayList<>();
-                System.out.println("No existe el archivo JSON, lista vacía creada.");
-            }
-
-
-        ArrayList<Pedido> pedidos = new ArrayList<>();
+        ConversorJson conversor = new ConversorJson();
+        ArrayList<Pedido> pedidos = conversor.obtenerPedidos();
+        ArrayList<Producto> inventario = conversor.obtenerInventario();
+        ArrayList<Cliente> clientes = conversor.obtenerClientes();
 
         System.out.println("=================================== SISTEMA DE GESTIÓN - TECHLAB ==================================");
         System.out.println("Bienvenido/a por favor ingrese su nombre:");
         String nombreCliente = scanner.nextLine();
         System.out.println("Ahora por favor ingrese su correo electrónico: ");
         String emailCliente = scanner.nextLine();
-        Cliente cliente = new Cliente(nombreCliente, emailCliente);
+        clientes.add(new Cliente(nombreCliente, emailCliente));
 
         do {
             System.out.println("Elige una opción\n" +
@@ -60,7 +40,6 @@ public class Main {
 
             int opcionUsuario = scanner.nextInt();
 
-            //TODO reducir todo el código métodos
             switch (opcionUsuario) {
                 //Agregar producto al inventario
                 case 1:
@@ -82,27 +61,22 @@ public class Main {
                 case 5:
                     menu.crearPedido(inventario, pedidos, scanner);
                     break;
-                    //Listar un pedido
+                //Listar un pedido
                 case 6:
                     menu.mostrarPedidos(pedidos);
                     break;
-                    //Salir
+                //Salir
                 case 7:
-                    menu.cerrarMenu(menuActivo);
-                    FileWriter fileWriter = new FileWriter("inventario.json");
-                    fileWriter.write(gson.toJson(inventario));
-                    fileWriter.close();
+                    System.out.println("Gracias por operar con TECHLAB.");
+                    menuActivo = false;
+                    conversor.sobreescribirJson(inventario, "src/techlab/data/inventario.json");
+                    conversor.sobreescribirJson(pedidos, "src/techlab/data/pedidos.json");
+                    conversor.sobreescribirJson(clientes, "src/techlab/data/clientes.json");
                     break;
+
                 default:
                     System.out.println("Opción no válida. Por favor intente de nuevo.");
             }
-        } while(menuActivo);
-
-        //Agregar el archivo a inventario.json
-
-
-
+        } while (menuActivo);
     }
-
-
 }

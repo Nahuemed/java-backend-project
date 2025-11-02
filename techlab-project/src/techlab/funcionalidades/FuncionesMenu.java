@@ -1,9 +1,9 @@
 package techlab.funcionalidades;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import techlab.modelos.Pedido;
 import techlab.modelos.Producto;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -57,16 +57,14 @@ public class FuncionesMenu {
                     case 1:
                         System.out.println("Ingrese el nuevo nombre: ");
                         scanner.nextLine();
-                        String nuevoNombre = scanner.nextLine();
-                        p.setNombre(nuevoNombre);
+                        p.setNombre(scanner.nextLine());
                         System.out.println("Nombre actualizado.");
                         p.mostrarInformacion();
                         break;
                     case 2:
                         System.out.println("Ingrese el nuevo precio: ");
                         scanner.nextLine();
-                        double nuevoPrecio = scanner.nextDouble();
-                        p.setPrecio(nuevoPrecio);
+                        p.setPrecio(scanner.nextDouble());
                         System.out.println("Precio actualizado.");
                         p.mostrarInformacion();
                         break;
@@ -74,7 +72,6 @@ public class FuncionesMenu {
                     case 3:
                         System.out.println("Ingrese el stock del producto: ");
                         scanner.nextLine();
-                        int nuevoStock = scanner.nextInt();
                         p.setStock(scanner.nextInt());
                         System.out.println("Stock actualizado.");
                         p.mostrarInformacion();
@@ -119,10 +116,9 @@ public class FuncionesMenu {
     //Crear un pedido
     public void crearPedido(ArrayList<Producto> array, ArrayList<Pedido> pedidos, Scanner scanner){
         boolean pedidoEnProceso = true;
-        int idpedido = 0;
-        idpedido++;
+        int idpedido = pedidos.size() + 1;
         Pedido pedido = new Pedido();
-        pedido.setIdCompra(idpedido++);
+        pedido.setIdCompra(idpedido);
         while (pedidoEnProceso) {
             for (int i = 0; i <= array.size() - 1; i++) {
                 System.out.println(array.get(i).getNombre() + " id: " + array.get(i).getId());
@@ -133,7 +129,7 @@ public class FuncionesMenu {
             if (idSeleccionado != 0) {
                 System.out.println("Ingrese la cantidad que desea comprar: ");
                 int cantidad = scanner.nextInt();
-                pedido.agregarProducto(array.get(idSeleccionado - 1), cantidad);
+                pedido.agregarProducto(array.get(idSeleccionado - 1).getNombre(), cantidad);
             } else {
                 pedidoEnProceso = false;
                 System.out.println("Pedido terminado : ");
@@ -146,15 +142,9 @@ public class FuncionesMenu {
 
     //Mostrar lista de pedidos
     public void mostrarPedidos(ArrayList<Pedido> pedidos){
-        for(Pedido p : pedidos){
+        for (Pedido p : pedidos){
             p.mostrarPedido();
         }
-    }
-
-    //Cerrar menú
-    public void cerrarMenu(boolean menuActivo){
-        System.out.println("Gracias por operar con TECHLAB.");
-        menuActivo = false;
     }
 
 }
