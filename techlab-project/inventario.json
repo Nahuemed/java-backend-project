@@ -1,0 +1,38 @@
+[
+  {
+    "nombre": "Teclado",
+    "id": 1,
+    "precio": 10.99,
+    "stock": 20
+  },
+  {
+    "nombre": "Mouse",
+    "id": 2,
+    "precio": 5.99,
+    "stock": 30
+  },
+  {
+    "nombre": "Monitor",
+    "id": 3,
+    "precio": 120.0,
+    "stock": 5
+  },
+  {
+    "nombre": "Cable Hdmi",
+    "id": 4,
+    "precio": 4.99,
+    "stock": 30
+  },
+  {
+    "nombre": "Cable Sata",
+    "id": 5,
+    "precio": 3.99,
+    "stock": 10
+  },
+  {
+    "nombre": "Auriculares",
+    "id": 6,
+    "precio": 20.99,
+    "stock": 3
+  }
+]

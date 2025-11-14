@@ -1,0 +1,19 @@
+[
+  {
+    "nombre": "gfdsdfa",
+    "id": 0,
+    "precio": 0.0,
+    "stock": 0
+  },
+  {
+    "nombre": "Nahuel",
+    "id": 0,
+    "precio": 0.0,
+    "stock": 0
+  },
+  {
+    "nombre": "nahuel",
+    "email": "nahuel.com",
+    "comprasRealizadas": 0
+  }
+]
